@@ -44,6 +44,18 @@ app.get('/tasks', (req, res) => {
     })
 })
 
+app.get('/tasks/:id', (req, res) => {
+    const _id = req.params.id
+    Task.findById(_id).then((task) => {
+        if (!task) {
+            res.status(404).send()
+        }
+        res.send(task)
+    }).catch(() => {
+        res.status(500).send()
+    })
+})
+
 app.post('/tasks', (req, res) => {
     const task = new Task(req.body)
     task.save().then(() => {
